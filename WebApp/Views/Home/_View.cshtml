@@ -1,0 +1,62 @@
+﻿@model IEnumerable<WebApp.Models.DocumentViewModel>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FileName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FileName)
+            </td>
+            <td>
+                <a asp-action="Details" asp-controller="Home" asp-route-id="@item.FileId">View</a> |
+                <a href="#" onclick="DeleteAttachment('@item.FileId')">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+
+    function ConfirmDialog() {
+        if (window.confirm("Are you sure you want to remove this attachment?")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function DeleteAttachment(id) {
+        if (ConfirmDialog()) {
+            $.ajax({
+                url: '@Url.Action("Delete", "Home")',
+                type: "POST",
+                data: JSON.stringify(id),
+                async: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR.responseText)
+                    console.log(errorThrown)
+                }
+            });
+        } else {
+            return false;
+        }
+    }
+
+</script>

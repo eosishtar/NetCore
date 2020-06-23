@@ -1,0 +1,25 @@
+﻿@model IEnumerable<WebApp.Models.DocumentViewModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+
+        This is the Test Page to show the uploaded images.
+
+        @if (!string.IsNullOrWhiteSpace(@ViewBag.Message?.ToString()))
+        {
+            <div class="alert alert-danger" role="alert">@Html.Raw(@ViewBag.Message)</div>
+        }
+
+        <div class="col-sm-12 main-parent">
+            <div class="row">
+                @{
+                    await Html.RenderPartialAsync("_View");
+                }
+            </div>
+        </div>
+
+    </div>
